@@ -17,7 +17,7 @@ const blogRoutes = require('./routes/blog');
 const blogCategoryRoutes = require('./routes/blogCategory');
 const rewardRoutes = require('./routes/reward');
 const reviewRoutes = require('./routes/review');
-
+const contactRequest = require('./routes/contactRequest');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -63,6 +63,7 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/blogCategory', blogCategoryRoutes);
 app.use('/api/reward', rewardRoutes);
 app.use('/api/review', reviewRoutes);
+app.use('/api/contactRequest', contactRequest);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

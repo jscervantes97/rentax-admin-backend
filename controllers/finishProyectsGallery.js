@@ -2,24 +2,34 @@ const FinishProyectsGallery = require('../models/finishProyectsGallery');
 
 exports.addProyect = async (req, res) => {
     try {
+      console.log(req)
+      const image = req.files.principalImage[0].filename ;
+      const arrayImages = [] ;
+      for(var i = 0 ; i < req.files.images.length ; i++){
+        arrayImages.push(
+          {
+            'src' : req.files.images[i].filename
+          }
+        );
+      }
       const newFinishProyectsGallery = new FinishProyectsGallery({
-        name: req.body.name,
-        email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
-        comments: req.body.comments,
+        tituloPropiedad : req.body.tituloPropiedad , 
+        srcImage: image,
+        nombrePropiedad : req.body.nombrePropiedad,
+        arrayImages : arrayImages
       });
-      console.log(req.body);
-      const contactRequest = await newContactRequest.save();
+      const proyectRequest = await newFinishProyectsGallery.save();
   
       res
         .status(201)
-        .json({ message: 'Proyect added', data: contactRequest });
+        .json({ message: 'Proyect added', data: proyectRequest });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ status: 'fail ....', message: error });
     }
   };
   
-exports.getContactRequests = async (req, res) => {
+exports.getFullGallery = async (req, res) => {
     try {
       const queryObj = { ...req.query };
       const excludedFields = ['page', 'sort', 'limit', 'fields'];
@@ -29,17 +39,17 @@ exports.getContactRequests = async (req, res) => {
       const limit = req.query.limit * 1 || 20;
       const skip = (page - 1) * limit;
   
-      const numRequests = await ContactRequest.countDocuments();
+      const numRequests = await FinishProyectsGallery.countDocuments();
       const totalPages = Math.ceil(numRequests / limit);
   
       // if (req.query.page) {
       //   if (skip >= numDevelopments) throw new Error('This page does not exist');
       // }
   
-      let query = await ContactRequest.find().skip(skip).limit(limit);
+      let query = await FinishProyectsGallery.find().skip(skip).limit(limit);
   
       res.status(200).json({
-        message: 'Contact Requests fetched',
+        message: 'FinishProyectsGallery Requests fetched',
         data: query,
         totalItems: numRequests,
         page: page,

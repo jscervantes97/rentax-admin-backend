@@ -17,13 +17,17 @@ const blogRoutes = require('./routes/blog');
 const blogCategoryRoutes = require('./routes/blogCategory');
 const rewardRoutes = require('./routes/reward');
 const reviewRoutes = require('./routes/review');
-
+const contactRequest = require('./routes/contactRequest');
+const testimonyRequest = require('./routes/testimony') ;
+const comertialAreaRequest = require('./routes/comertialArea') ;
+const proyectGalleryRequest = require('./routes/finishProyectsGallery');
 const app = express();
 
 app.set('view engine', 'ejs');
 // app.set("views", "views");
 
 const routes = require('./routes');
+const finishProyectsGallery = require('./models/finishProyectsGallery');
 
 app.use(cors());
 // app.options("*", cors());
@@ -63,6 +67,11 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/blogCategory', blogCategoryRoutes);
 app.use('/api/reward', rewardRoutes);
 app.use('/api/review', reviewRoutes);
+app.use('/api/contactRequest', contactRequest);
+app.use('/api/testimony', testimonyRequest);
+app.use('/api/comertialArea', comertialAreaRequest);
+app.use('/api/proyectGallery' , proyectGalleryRequest);
+
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
